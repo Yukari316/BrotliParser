@@ -50,13 +50,13 @@ namespace brotliparser
         /// <summary>
         /// 获取指定目录下的所有文件
         /// </summary>
-        /// <returns></returns>
         public List<FileInfo> GetAllFileInfos()
         {
             if (string.IsNullOrEmpty(Path))
             {
                 return null;
             }
+            //清空原有的数据
             FileList.Clear();
             _Getallfiles(Path);
             return FileList.Count == 0 ? null : FileList;

@@ -19,11 +19,11 @@ namespace brotliparser
             }
             FileInfo fileInfo = new FileInfo(path);
             byte[] buff = new byte[fileInfo.Length];
-
-            FileStream fileStream = fileInfo.OpenRead();
-            fileStream.Read(buff, 0, Convert.ToInt32(fileStream.Length));
-            fileStream.Close();
-
+            using (FileStream fileStream = fileInfo.OpenRead())
+            {
+                fileStream.Read(buff, 0, Convert.ToInt32(fileStream.Length));
+                fileStream.Close();
+            }
             return buff;
         }
 
@@ -38,12 +38,13 @@ namespace brotliparser
             {
                 File.Delete(savePath);
             }
-
-            FileStream fileStream = new FileStream(savePath, FileMode.CreateNew);
-            BinaryWriter binaryWriter = new BinaryWriter(fileStream);
-            binaryWriter.Write(buff, 0, buff.Length);
-            binaryWriter.Close();
-            fileStream.Close();
+            using (FileStream fileStream = new FileStream(savePath, FileMode.CreateNew))
+            using (BinaryWriter binaryWriter = new BinaryWriter(fileStream))
+            {
+                binaryWriter.Write(buff, 0, buff.Length);
+                binaryWriter.Close();
+                fileStream.Close();
+            }
         }
         #endregion
     }
