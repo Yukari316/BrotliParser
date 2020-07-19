@@ -1,4 +1,3 @@
-using System;
 using System.IO;
 
 namespace brotliparser
@@ -15,15 +14,9 @@ namespace brotliparser
         {
             if (!File.Exists(path))
             {
-                return new byte[0];
+                return null;
             }
-            FileInfo fileInfo = new FileInfo(path);
-            byte[] buff = new byte[fileInfo.Length];
-            using (FileStream fileStream = fileInfo.OpenRead())
-            {
-                fileStream.Read(buff, 0, Convert.ToInt32(fileStream.Length));
-                fileStream.Close();
-            }
+            byte[] buff = File.ReadAllBytes(path);
             return buff;
         }
 
